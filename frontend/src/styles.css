@@ -1,1 +1,72 @@
-/* You can add global styles to this file, and also import other style files */
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f6f9;
+  color: #243447;
+  line-height: 1.5;
+}
+.ancho { width: min(1100px, 92%); margin: auto; }
+.cabecera { background: #173b61; color: white; padding: 28px 0; }
+.cabecera h1 { margin: 0; font-size: clamp(2rem, 5vw, 3rem); }
+.cabecera p { margin: 5px 0; }
+.menu { background: white; border-bottom: 1px solid #d5dde7; }
+.enlaces { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 0; }
+.enlaces a { padding: 8px 13px; color: #173b61; text-decoration: none; }
+.enlaces a.activo { background: #e3edf8; border-radius: 6px; }
+.pagina { padding: 28px 0; min-height: 65vh; }
+h2 { margin-top: 0; color: #173b61; }
+.panel, .tarjeta {
+  background: white;
+  border: 1px solid #d5dde7;
+  border-radius: 10px;
+  padding: 24px;
+  overflow-wrap: anywhere;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  gap: 18px;
+}
+.acciones { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+button, .boton {
+  display: inline-block;
+  border: 0;
+  border-radius: 6px;
+  padding: 10px 15px;
+  background: #175a94;
+  color: white;
+  font: inherit;
+  cursor: pointer;
+  text-decoration: none;
+}
+button:disabled { opacity: .6; cursor: wait; }
+.secundario { background: #53677b; }
+.peligro { background: #ac2929; }
+.error, small { color: #a52020; }
+.error { padding: 10px; background: #fff0ef; }
+.exito { color: #17633b; }
+.aviso { color: #59677a; }
+.formulario { max-width: 760px; margin: auto; }
+form { display: grid; gap: 8px; }
+label { font-weight: bold; margin-top: 8px; }
+input, textarea, select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #aab8c8;
+  border-radius: 5px;
+  font: inherit;
+}
+textarea { resize: vertical; }
+.etiqueta { display: inline-block; border-radius: 20px; padding: 3px 10px; }
+.alta { background: #ffe4e0; color: #8e2018; }
+.media { background: #fff0c7; color: #775800; }
+.baja { background: #def1e4; color: #1d6340; }
+.estado { font-weight: bold; color: #173b61; }
+.descripcion { white-space: pre-wrap; }
+:focus-visible { outline: 3px solid #d58e00; outline-offset: 3px; }
+footer { text-align: center; padding: 20px; color: #59677a; }
+@media (max-width: 600px) {
+  .panel, .tarjeta { padding: 18px; }
+  .enlaces { gap: 2px; }
+}

@@ -1,0 +1,48 @@
+<section class="panel formulario">
+  <h2>Registrar ticket</h2>
+  <p class="aviso">No guarda datos</p>
+  <form [formGroup]="formulario" (ngSubmit)="guardar()">
+    <label for="asunto">Asunto</label>
+    <input id="asunto" formControlName="asunto" maxlength="150">
+    @if (formulario.controls.asunto.touched && formulario.controls.asunto.invalid) {
+      <small>Asunto obligatorio de 3 a 150 caracteres</small>
+    }
+    <label for="solicitante">Solicitante</label>
+    <input id="solicitante" formControlName="solicitante" maxlength="120">
+    @if (formulario.controls.solicitante.touched && formulario.controls.solicitante.invalid) {
+      <small>Solicitante obligatorio de 3 a 120 caracteres</small>
+    }
+    <label for="descripcion">Descripción del problema</label>
+    <textarea id="descripcion" formControlName="descripcion"
+              rows="5" maxlength="2000"></textarea>
+    @if (formulario.controls.descripcion.touched && formulario.controls.descripcion.invalid) {
+      <small>Descripción obligatoria de 5 a 2000 caracteres</small>
+    }
+    <label for="categoria">Categoría</label>
+    <select id="categoria" formControlName="categoria">
+      <option value="Hardware">Hardware</option>
+      <option value="Software">Software</option>
+      <option value="Red">Red</option>
+    </select>
+    <label for="prioridad">Prioridad</label>
+    <select id="prioridad" formControlName="prioridad">
+      <option value="Baja">Baja</option>
+      <option value="Media">Media</option>
+      <option value="Alta">Alta</option>
+    </select>
+    <label for="estado">Estado</label>
+    <select id="estado" formControlName="estado">
+      <option value="Abierto">Abierto</option>
+      <option value="En proceso">En proceso</option>
+      <option value="Cerrado">Cerrado</option>
+    </select>
+    <label for="fecha">Fecha de registro</label>
+    <input id="fecha" type="date" formControlName="fechaRegistro"
+           min="1000-01-01" max="9999-12-31">
+    @if (formulario.controls.fechaRegistro.touched && formulario.controls.fechaRegistro.invalid) {
+      <small>Selecciona una fecha válida</small>
+    }
+    <button type="submit">Validar formulario</button>
+  </form>
+  @if (mensaje) { <p role="status">{{ mensaje }}</p> }
+</section>

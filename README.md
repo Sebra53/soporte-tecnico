@@ -22,10 +22,14 @@ implemento frontend: componentes: cabecera, menu, inicio, tickets,nuevoticket y 
 
 aun no conectado a base de datos (commit 2)
 
-backend funcional conectado a base de datos
+backend funcional conectado a base de datos (commit 3)
+
+conexion backend y frontend (commit 4)
 
 
 ## instalacion
+copiar contenido en .env.exmple en .env
+
 ejecutar crear-base.sql para crear base de datos
 
 en 2 terminales diferentes
@@ -44,12 +48,16 @@ abrir localhost:4200 y localhost;3000
 - comprobacion reglas de los datos
 - comprobacion post, get, delete
 
+- persistencia base de datos
+- conexion frontend y backend
+- registro, edicion y eliminado desde frontend
+
 ## uso IA
 
 - organizacion readme
 - ayuda comandos creracion del proyecto
 - estilo (css) generado por la ia
-- ayuda comprension errores en codigo de referencia (actividades semanales angular)
+- ayuda comprension errores en codigo de referencia (actividades semanales angular)(errores de carga)
 - diseño base de datos
 - mensajes de error  
 ## creacion proyecto 

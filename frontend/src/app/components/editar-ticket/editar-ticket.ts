@@ -1,15 +1,21 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators }
   from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { TicketsService } from '../../services/tickets';
  
 @Component({
   selector: 'app-editar-ticket',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './editar-ticket.html',
   styleUrl: './editar-ticket.css'
 })
-export class EditarTicket {
-  mensaje = '';
+export class EditarTicket implements OnInit {
+  id = 0;
+  cargando = true;
+  guardando = false;
+  encontrado = false;
+  error = '';
   formulario = new FormGroup({
     asunto: new FormControl('', {
       nonNullable: true,
@@ -48,8 +54,46 @@ export class EditarTicket {
     })
   });
  
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private servicio: TicketsService,
+    private cdr: ChangeDetectorRef
+  ) {}
+ 
+  ngOnInit(): void {
+    this.id = Number(this.route.snapshot.paramMap.get('id'));
+    this.cargarTicket();
+  }
+ 
+  cargarTicket(): void {
+    this.error = '';
+    this.encontrado = false;
+    this.cargando = true;
+    if (!Number.isSafeInteger(this.id) || this.id <= 0) {
+      this.error = 'Identificador de ticket inválido';
+      this.cargando = false;
+      this.cdr.markForCheck();
+      return;
+    }
+    this.servicio.obtenerTicket(this.id).subscribe({
+      next: (ticket) => {
+        this.formulario.patchValue(ticket);
+        this.encontrado = true;
+        this.cargando = false;
+        this.cdr.markForCheck();
+      },
+      error: (error) => {
+        this.error = error.error?.mensaje || 'No fue posible cargar el ticket';
+        this.cargando = false;
+        this.cdr.markForCheck();
+      }
+    });
+  }
+ 
   guardar(): void {
-    this.mensaje = '';
+    if (this.guardando || !this.encontrado) return;
+    this.error = '';
     const c = this.formulario.controls;
     c.asunto.setValue(c.asunto.value.trim());
     c.solicitante.setValue(c.solicitante.value.trim());
@@ -58,6 +102,18 @@ export class EditarTicket {
       this.formulario.markAllAsTouched();
       return;
     }
-    this.mensaje = 'Datos válidos. La conexión HTTP se agrega en la etapa 4.';
+    this.guardando = true;
+    this.servicio.actualizarTicket(this.id,
+      this.formulario.getRawValue()).subscribe({
+      next: () => {
+        this.guardando = false;
+        this.router.navigate(['/tickets']);
+      },
+      error: (error) => {
+        this.error = error.error?.mensaje || 'No fue posible actualizar el ticket';
+        this.guardando = false;
+        this.cdr.markForCheck();
+      }
+    });
   }
 }

@@ -1,15 +1,18 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators }
   from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { TicketsService } from '../../services/tickets';
  
 @Component({
   selector: 'app-nuevo-ticket',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './nuevo-ticket.html',
   styleUrl: './nuevo-ticket.css'
 })
 export class NuevoTicket {
-  mensaje = '';
+  error = '';
+  guardando = false;
   formulario = new FormGroup({
     asunto: new FormControl('', {
       nonNullable: true,
@@ -48,8 +51,15 @@ export class NuevoTicket {
     })
   });
  
+  constructor(
+    private servicio: TicketsService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) {}
+ 
   guardar(): void {
-    this.mensaje = '';
+    if (this.guardando) return;
+    this.error = '';
     const c = this.formulario.controls;
     c.asunto.setValue(c.asunto.value.trim());
     c.solicitante.setValue(c.solicitante.value.trim());
@@ -58,6 +68,17 @@ export class NuevoTicket {
       this.formulario.markAllAsTouched();
       return;
     }
-    this.mensaje = 'Datos válidos. La conexión HTTP se agrega en la etapa 4.';
+    this.guardando = true;
+    this.servicio.crearTicket(this.formulario.getRawValue()).subscribe({
+      next: () => {
+        this.guardando = false;
+        this.router.navigate(['/tickets']);
+      },
+      error: (error) => {
+        this.error = error.error?.mensaje || 'No fue posible registrar el ticket';
+        this.guardando = false;
+        this.cdr.markForCheck();
+      }
+    });
   }
 }

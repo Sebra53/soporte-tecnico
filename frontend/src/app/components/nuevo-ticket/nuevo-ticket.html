@@ -1,6 +1,6 @@
 <section class="panel formulario">
   <h2>Registrar ticket</h2>
-  <p class="aviso">No guarda datos</p>
+  @if (error) { <p class="error" role="alert">{{ error }}</p> }
   <form [formGroup]="formulario" (ngSubmit)="guardar()">
     <label for="asunto">Asunto</label>
     <input id="asunto" formControlName="asunto" maxlength="150">
@@ -42,7 +42,11 @@
     @if (formulario.controls.fechaRegistro.touched && formulario.controls.fechaRegistro.invalid) {
       <small>Selecciona una fecha válida</small>
     }
-    <button type="submit">Validar formulario</button>
+    <div class="acciones">
+      <button type="submit" [disabled]="guardando">
+        {{ guardando ? 'Guardando...' : 'Registrar ticket' }}
+      </button>
+      <a routerLink="/tickets">Volver al listado</a>
+    </div>
   </form>
-  @if (mensaje) { <p role="status">{{ mensaje }}</p> }
 </section>

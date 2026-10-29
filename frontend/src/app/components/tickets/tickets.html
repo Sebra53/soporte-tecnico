@@ -1,5 +1,44 @@
-<section class="panel">
+<section>
   <h2>Listado de tickets</h2>
-  <p>aun no conectado a base de datos</p>
-  <a class="boton" routerLink="/nuevo-ticket">Registrar ticket</a>
+  <p><a class="boton" routerLink="/nuevo-ticket">Registrar ticket</a></p>
+  @if (mensaje) { <p class="exito" role="status">{{ mensaje }}</p> }
+  @if (error) {
+    <div class="error" role="alert">
+      <p>{{ error }}</p>
+      <button type="button" (click)="cargarTickets()">Reintentar carga</button>
+    </div>
+  }
+  @if (cargando) { <p role="status">Cargando tickets...</p> }
+  @if (!cargando) {
+    <div class="grid">
+      @for (ticket of tickets; track ticket.id) {
+        <article class="tarjeta">
+          <h3>#{{ ticket.id }} · {{ ticket.asunto }}</h3>
+          <p><strong>Solicitante:</strong> {{ ticket.solicitante }}</p>
+          <p class="descripcion">{{ ticket.descripcion }}</p>
+          <p><strong>Categoría:</strong> {{ ticket.categoria }}</p>
+          <p class="etiqueta"
+             [class.alta]="ticket.prioridad === 'Alta'"
+             [class.media]="ticket.prioridad === 'Media'"
+             [class.baja]="ticket.prioridad === 'Baja'">
+            Prioridad {{ ticket.prioridad }}
+          </p>
+          <p class="estado">Estado: {{ ticket.estado }}</p>
+          <p><strong>Fecha:</strong> {{ ticket.fechaRegistro }}</p>
+          <div class="acciones">
+            <a class="boton" [routerLink]="['/editar-ticket', ticket.id]">
+              Ver y editar
+            </a>
+            <button class="peligro" type="button"
+                    [disabled]="borrando !== null"
+                    (click)="eliminar(ticket)">
+              {{ borrando === ticket.id ? 'Eliminando...' : 'Eliminar' }}
+            </button>
+          </div>
+        </article>
+      } @empty {
+        @if (!error) { <p>No hay tickets registrados</p> }
+      }
+    </div>
+  }
 </section>

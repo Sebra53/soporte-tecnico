@@ -6,13 +6,17 @@ Sebastián Bonilla S.
 angular 22, TypeScript, HTML, CSS, Node.js, Express, MySQL 
 
 
-## estructura
-
--frontend: angular
-
--backend: api express
-
--database: script sql
+## Estructura
+- frontend/src/app/components/: cabecera, menú, inicio y vistas de tickets
+- frontend/src/app/models/ticket.ts: contrato de datos Ticket y TicketNuevo
+- frontend/src/app/services/tickets.ts: cinco operaciones HttpClient
+- frontend/src/app/app.routes.ts: navegación de la aplicación
+- frontend/src/styles.css: diseño común y prioridades
+- backend/server.js: validaciones, endpoints y respuestas HTTP
+- backend/db.js: pool de conexiones MySQL
+- backend/.env.example: configuración de ejemplo sin credenciales reales
+- database/crear-base.sql: esquema reproducible
+- database/datos-prueba.sql: carga opcional de cinco ejemplos
 
 ## estado
 
@@ -25,6 +29,20 @@ aun no conectado a base de datos (commit 2)
 backend funcional conectado a base de datos (commit 3)
 
 conexion backend y frontend (commit 4)
+
+pruebas y evidencia del proyecto (commit 5)
+
+## Variables de entorno
+backend/.env.example contiene valores de ejemplo:
+ 
+```dotenv
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=CAMBIAR
+DB_NAME=soporte_tecnico
+PORT=3000
+```
 
 
 ## instalacion
@@ -52,6 +70,12 @@ abrir localhost:4200 y localhost;3000
 - conexion frontend y backend
 - registro, edicion y eliminado desde frontend
 
+- get select y listado: imagen 1
+- consulta id ver y editar: imagen 2
+- post registrar ticket: imagen 3
+- validacion datos: imagen 4
+- desconeccion backend: imagen 5
+
 ## uso IA
 
 - organizacion readme
@@ -60,6 +84,8 @@ abrir localhost:4200 y localhost;3000
 - ayuda comprension errores en codigo de referencia (actividades semanales angular)(errores de carga)
 - diseño base de datos
 - mensajes de error  
+- datos de prueba (pruebas.sql)
+- ##estructura readme 
 ## creacion proyecto 
 
 mkdir soporte-tecnico
